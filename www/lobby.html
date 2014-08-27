@@ -1,0 +1,78 @@
+
+<div id="availableGames">
+	<div>
+		<strong>Create or join a game</strong> <br /> <br />
+		<div class="col-lg-6" style="float: none">
+			<input type="text" class="form-control" placeholder="enter your name" ng-model="gameSvc.playerName"> <br />
+			<button ng-click="createGame()" class="btn btn-primary" id="createBtn" type="button">
+				Create Game
+				</a>
+			</button>
+		</div>
+		<div class="clear"></div>
+		<br />
+
+		<div class="col-lg-6" style="float: none">
+			<div class="input-group">
+				<input type="text" class="form-control joinGame" placeholder="game's name" ng-model="game.name"> <span class="input-group-btn">
+					<button ng-click="joinGame(game.name)" type="button" id="joinBtn" class="btn btn-success">&nbsp;&nbsp;Join Game&nbsp;&nbsp;&nbsp;&nbsp;</button>
+				</span>
+			</div>
+		</div>
+
+		<!-- <strong id="noGames" ng-show="availableGames.length == 0">no open games... use the Create Game link at the top to start one.</strong> -->
+		<!-- <div ng-repeat="game in availableGames" class="well">
+      <span style="font-size: larger">{{game.name}} - {{game.players}} of 4 players</span>
+    </div> -->
+	</div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Instructions</h4>
+			</div>
+			<div class="modal-body">
+				<ul>
+					<li>Enter your name at the top.</li>
+					<li>You need 4 players to play.</li>
+					<li>Use the Create Game button to start a game or...</li>
+					<li>Put the game name on the box and click Join Game.</li>
+				</ul>
+
+				<div class="row" style="border: solid 1px silver; padding: 10px; margin-top: 10px;">
+					<div>
+						<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/">
+							<img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-nc-sa/2.0/88x31.png" />
+						</a>
+					</div>
+					
+					<div class="col-sm-10">
+						<small>
+						This work, "Droids Against Humanity", is a derivative of "NodeJS Against Humanity" by Amir Rajan, used under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic License</a>.
+						</small>
+						<br />
+						<small>
+						"Droids Against Humanity" is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic License</a>. by Alexandre Tavares and Gabriel Barreto.
+						</small>
+						<br />
+						<small>
+							The original version can be found <a href="https://github.com/amirrajan/nodejs-against-humanity">here.</a>
+						</small>
+						<br />
+						<small>This app is not affliated in any way with the official Cards Against Humanity.</small>						
+					</div>
+
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

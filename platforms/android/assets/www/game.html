@@ -1,0 +1,112 @@
+<div class="row" ng-show="!!gameError">
+  <div class="alert alert-danger">
+    {{gameError}}
+  </div>
+</div>
+<div class="row">
+  <h1 id="gameName"> <small ng-show="!game.isStarted">(waiting for players)</small></h1>
+  <h2 ng-show="!game.isStarted">Your game name is: {{game.name}}</h2>
+</div>
+<body>
+
+  <div class="swiper-container heightHack">
+    <div class="swiper-wrapper heightHack">
+      <div class="swiper-slide heightHack">
+        <div id="notificationWaitingOnRound" ng-show="!game.isStarted" class="center alert alert-warning">waiting on round to start</div>
+        <div class="blackCard" ng-show="game.isStarted">
+          {{game.currentBlackCard}}
+        </div>
+        <br>
+        <div id="notificationCardCzar" ng-show="currentPlayer.isCzar" class="alert alert-info center">You are the Card Czar.</div>
+        <div id="notificationSelectCard" ng-show="showNotificationSelectCard()" class="alert alert-success center">Select a card to play.</div>
+        <div id="notificationWaitingOnCzar" ng-show="showNotificationWaitingOnCzar()" class="alert alert-warning center">Waiting for the Card Czar to pick winner.</div>
+        <div id="notificationWaitingOnCards" ng-show="showNotificationWaitingOnCards()" class="alert alert-warning center">Waiting for other players.</div>
+        <div id="notificationSelectWinner" ng-show="showNotificationSelectWinner()" class="alert alert-success center">Select a card to be the winner.</div>
+        <div class="row heightHack" ng-show="showWhiteCardList()" style="height:100%">
+          
+         <!--    <table id="whiteCards" class="table">
+            <tbody id="whiteCardSelection">
+            <tr ng-repeat="whiteCard in currentPlayer.cards">
+            <td class="col-lg-10 col-md-10" style="font-size: 16px; font-weight: bold; line-height: 25px;" ng-class="getButtonClass(whiteCard)" ng-click="selectCard(whiteCard)" >{{whiteCard}}</td>
+            </tr>
+            </tbody>
+            </table> -->
+          
+          <div id="whiteCards" class="heightHack" style="text-align: center;height:100%">
+            <div id="whiteCardSelection" style="height:100%">
+              <div class="whiteCard cardScroll" ng-repeat="whiteCard in currentPlayer.cards" ng-class="getButtonClass(whiteCard)" ng-click="selectCard(whiteCard)" >{{whiteCard}}
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="clear"></div>
+          <div class="row heightHack" ng-show="showSelectedWhiteCardList()">
+<!--             <table id="selectedWhiteCards" class="table">
+              <tbody>
+                <tr ng-repeat="player in game.players | filter:whiteCardNonNull" ng-class="getWinningCardClass(player.selectedWhiteCardId)">
+                  <td ng-class="getSelectedCardClass(player.selectedWhiteCardId)" class="alert col-lg-10 col-md-10 selectedCard" style="font-size: 16px; font-weight: bold; line-height: 25px;">
+                    <button class="btn btn-default" ng-show="!game.isReadyForReview" ng-click="selectWinner(player.selectedWhiteCardId)">select</button>
+                    <span ng-show="game.isReadyForReview" style="margin-left:5px">{{player.name}} - </span>
+                    <span ng-show="game.winningCardId === player.selectedWhiteCardId">Winner: &nbsp;</span>{{player.selectedWhiteCardId}}
+                  </td>
+                </tr>
+              </tbody>
+            </table> -->
+
+            <div id="selectedWhiteCards">
+                <div ng-repeat="player in game.players | filter:whiteCardNonNull" ng-class="getWinningCardClass(player.selectedWhiteCardId)" class="selectedCard">
+                    <button class="btn btn-default" ng-show="!game.isReadyForReview" ng-click="selectWinner(player.selectedWhiteCardId)" style="margin-right:10px">select</button>
+                    <span ng-show="game.isReadyForReview" style="margin-right:10px">{{player.name}} - </span>
+                    <span ng-show="game.winningCardId === player.selectedWhiteCardId">Winner: &nbsp;</span>{{player.selectedWhiteCardId}}
+                </div>
+            </div>
+
+          </div>
+          <div id="notificationRoundComplete" ng-show="game.isReadyForReview" class="alert alert-info center">winner selected, next round will start when everyone is ready</div>
+          <div id="buttonNextRound" ng-show="game.isReadyForReview && !currentPlayer.isReady" class="row">
+            <button ng-click="readyForNextRound()" ng-show="!game.isOver" class="btn btn-lg btn-primary btn-block">ready</button>
+            <button ng-click="readyForNextRound()" ng-show="game.isOver" class="btn btn-lg btn-primary btn-block">start new game</button>
+          </div>
+          <div>
+            <h4>Round Progress</h4>
+            <div class="progress">
+              <div id="gameProgress" class="progress-bar" role="progressbar" aria-valuenow="{{progStyleValue}}" aria-valuemin="0" aria-valuemax="100" ng-style="progStyle">
+              </div>
+            </div>
+            <table id="roundSummary" class="table">
+              <tbody id="roundSummaryEntries">
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+
+
+
+      <div class="swiper-slide heightHack">
+        <div id="points" class="row heightHack">
+          <div class="well" style="font-size: 20px">Your Awesome Score: <span id="pointsValue">{{currentPlayer.awesomePoints}}</span></div>
+        </div>
+        <div id="roundPlayers" class="row"> </div>
+        <h4>Player Status</h4>
+        <div id="roundHistory" class="row">
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="player in game.players">
+              <span class="badge pull-left">{{player.awesomePoints}}</span>
+              &nbsp;&nbsp;{{player.name}}
+              <span class="pull-right">{{getPlayerStatus(player)}}</span>
+            </li>
+          </ul>
+        </div>
+        <h4>Round Winners</h4>
+        <div id="rountWinners" class="row">
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="item in game.history">
+              <span class="text-success">{{item.winner}}:&nbsp;</span>
+              <span ng-bind-html="buildWinningText(item)"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
